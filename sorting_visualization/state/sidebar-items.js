@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["AnimationState","The state of animation of the algorithm visualization."],["ArrayAccess",""],["State","Contains the state of the whole app. It also has synchronization."]],"type":[["SharedState","A wrapper around [`State`] that can be safely shared between threads."]]});
