@@ -1,7 +1,6 @@
 //! [Selection sort](https://en.wikipedia.org/wiki/Selection_sort)
 
-use algorithms::Algorithm;
-use array::Array;
+use super::{Algorithm, Array};
 
 /// [Selection sort](https://en.wikipedia.org/wiki/Selection_sort)
 pub struct SelectionSort;
@@ -34,7 +33,7 @@ impl Algorithm for SelectionSort {
     }
   }
 
-  fn name(&self) -> &'static str {
-    "Selection sort"
+  fn name(&self) -> String {
+    "Selection sort".to_string()
   }
 }

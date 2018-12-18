@@ -1,7 +1,6 @@
 //! [Gnome sort](https://en.wikipedia.org/wiki/Gnome_sort)
 
-use algorithms::Algorithm;
-use array::Array;
+use super::{Algorithm, Array};
 
 /// [Gnome sort](https://en.wikipedia.org/wiki/Gnome_sort)
 pub struct GnomeSort;
@@ -24,7 +23,7 @@ impl Algorithm for GnomeSort {
     }
   }
 
-  fn name(&self) -> &'static str {
-    "Gnome sort"
+  fn name(&self) -> String {
+    "Gnome sort".to_string()
   }
 }

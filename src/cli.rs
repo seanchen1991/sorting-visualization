@@ -1,10 +1,8 @@
 //! Command-line interface and command-line argument parsing. Uses [clap] under
 //! the hood.
 
-use clap::{AppSettings, Arg};
-
-use algorithms;
-use algorithms::Algorithm;
+use crate::algorithms;
+use crate::algorithms::Algorithm;
 
 /// [Internal name](clap::Arg::with_name) of the
 /// [algorithm](Options::algorithm) argument which is used to
@@ -18,24 +16,30 @@ const LENGTH_OPT: &str = "LENGTH";
 /// [`--order`/`-o`](Options::order) option which is used to
 /// [get its value](clap::ArgMatches::value_of).
 const ORDER_OPT: &str = "ORDER";
+/// [Internal name](clap::Arg::with_name) of the
+/// [`--speed`/`-s`](Options::speed) option which is used to
+/// [get its value](clap::ArgMatches::value_of).
+const SPEED_OPT: &str = "SPEED";
 
 /// Contains all options that can be provided by a user using the CLI.
 pub struct Options {
   /// Instance of a sorting [algorithm](Algorithm) struct.
   pub algorithm: Box<dyn Algorithm + Send>,
-  /// Number of elements in the [array](::array::Array).
+  /// Number of elements in the [array](crate::array::Array).
   pub length: u32,
-  /// Order of elements in the [array](::array::Array).
+  /// Order of elements in the [array](crate::array::Array).
   pub order: Order,
+  /// [Speed](crate::state::State::speed) factor.
+  pub speed: f64,
 }
 
-/// Order of elements in the [array](::array::Array).
+/// Order of elements in the [array](crate::array::Array).
 pub enum Order {
   /// Sorted in the ascending order.
   Sorted,
   /// Sorted in the descending order.
   Reversed,
-  /// [Shuffled](::rand::Rng::shuffle).
+  /// [Shuffled](rand::Rng::shuffle).
   Shuffled,
 }
 
@@ -45,6 +49,8 @@ pub enum Order {
 ///
 /// _See_ [`clap::App.get_matches`](clap::App::get_matches)
 pub fn parse_options() -> Options {
+  use clap::*;
+
   let parser = app_from_crate!()
     .setting(AppSettings::NextLineHelp)
     .setting(AppSettings::ColoredHelp)
@@ -74,13 +80,23 @@ pub fn parse_options() -> Options {
           "insertion",
           "quicksort",
           "selection",
+          "shell",
         ])
         .case_insensitive(true)
         .required(true),
+    )
+    .arg(
+      Arg::with_name(SPEED_OPT)
+        .short("s")
+        .long("speed")
+        .help("Sets animation speed")
+        .default_value("1.0"),
     );
 
   let matches = parser.get_matches();
 
+  // all option values can be safely unwrapped here because their corresponding
+  // options are either required or have a default value
   Options {
     algorithm: match matches.value_of(ALGORITHM_ARG).unwrap() {
       "bubble" => Box::new(algorithms::BubbleSort),
@@ -89,6 +105,7 @@ pub fn parse_options() -> Options {
       "insertion" => Box::new(algorithms::InsertionSort),
       "quicksort" => Box::new(algorithms::Quicksort),
       "selection" => Box::new(algorithms::SelectionSort),
+      "shell" => Box::new(algorithms::Shellsort),
       _ => unreachable!(),
     },
 
@@ -100,5 +117,7 @@ pub fn parse_options() -> Options {
       "shuffled" => Order::Shuffled,
       _ => unreachable!(),
     },
+
+    speed: value_t_or_exit!(matches, SPEED_OPT, f64),
   }
 }

@@ -1,7 +1,6 @@
 //! [Insertion sort](https://en.wikipedia.org/wiki/Insertion_sort)
 
-use algorithms::Algorithm;
-use array::Array;
+use super::{Algorithm, Array};
 
 /// [Insertion sort](https://en.wikipedia.org/wiki/Insertion_sort)
 pub struct InsertionSort;
@@ -27,7 +26,7 @@ impl Algorithm for InsertionSort {
     }
   }
 
-  fn name(&self) -> &'static str {
-    "Insertion sort"
+  fn name(&self) -> String {
+    "Insertion sort".to_string()
   }
 }

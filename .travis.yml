@@ -1,20 +1,23 @@
 language: rust
-rust: nightly # nightly version is requierd for building docs
+rust: stable
 cache: cargo
 
-addons:
-  apt:
-    packages:
-      - libsdl2-dev
+jobs:
+  include:
+    - stage: test
+      addons:
+        apt:
+          packages:
+            - libsdl2-dev
 
-after_success: |
-  [ $TRAVIS_BRANCH = master ] &&
-  [ $TRAVIS_PULL_REQUEST = false ] &&
-  cargo doc --document-private-items &&
-  echo "<meta http-equiv=\"refresh\" content=\"0;url=`echo $TRAVIS_REPO_SLUG | cut -d '/' -f 2 | tr '-' '_'`/index.html\">" > target/doc/index.html &&
-  sudo pip install ghp-import &&
-  ghp-import -n target/doc &&
-  git push -fq https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
+    - stage: deploy
+      if: type != pull_request AND branch = master
+      script: ./docs.sh
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        github-token: $GH_TOKEN
+        local-dir: target/doc
 
 env:
   global:

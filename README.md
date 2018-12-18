@@ -1,33 +1,30 @@
 # sorting-visualization
 
-[![Travis (.org)](https://img.shields.io/travis/dmitmel/sorting-visualization.svg?style=flat-square)](https://travis-ci.org/dmitmel/sorting-visualization)
-[![contributors welcome](https://img.shields.io/badge/contributors-welcome-brightgreen.svg?style=flat-square)](https://github.com/dmitmel/sorting-visualization/pulls)
+[![Travis CI](https://img.shields.io/travis/dmitmel/sorting-visualization.svg?style=flat-square)](https://travis-ci.org/dmitmel/sorting-visualization)
+[![docs: GH pages](https://img.shields.io/badge/docs-GH%20pages-blue.svg?style=flat-square)](https://dmitmel.github.io/sorting-visualization)
+[![contributors: welcome](https://img.shields.io/badge/contributors-welcome-brightgreen.svg?style=flat-square)](https://github.com/dmitmel/sorting-visualization/pulls)
 
 A [Rust](https://www.rust-lang.org/) program for visualizing sorting algorithms which uses [Piston](http://www.piston.rs/) for graphics. Inspired by [**Hopson97/Sort-Algorithm-Visualiser**](https://github.com/Hopson97/Sort-Algorithm-Visualiser).
 
 [![Demo](https://i.imgur.com/jyPDiWX.gif)](https://gist.github.com/dmitmel/f8664421b547577065912c3246f4c1e9)
 
-## Installation
+## Setup
 
 ```bash
 git clone https://github.com/dmitmel/sorting-visualization
 cd sorting-visualization
-cargo install
+cargo build --release
 ```
-
-You can use `cargo run` if you don't want to install the binary system-wide.
-
-**Note:** compilation takes a lot of time
 
 ## Usage
 
 ```bash
 # see 'Features' for the list of supported algorithms and their IDs
-sorting-visualization <algorithm>
+cargo run <algorithm>
 # set length of the array
-sorting-visualization <algorithm> --length <number>
+cargo run <algorithm> --length <number>
 # set order of elements in the array
-sorting-visualization <algorithm> --order <sorted|reversed|shuffled>
+cargo run <algorithm> --order <sorted|reversed|shuffled>
 ```
 
 ## Features
@@ -51,21 +48,20 @@ sorting-visualization <algorithm> --order <sorted|reversed|shuffled>
 ## Building docs
 
 ```bash
-cargo +nightly doc --document-private-items --open
+./docs.sh
 ```
-
-Nightly Rust is required for building docs because the `--document-private-items` is currently unstable. This option is very useful when developing an application (not library) because you would probably like to see the documentation of the whole codebase.
 
 ## TODO
 
 1. Ask someone to proof-read the code
-2. Draw the animation state as text in the window instead of printing it to the console
-3. Add a CLI option to list available algorithms
-4. User-friendly GUI
-5. More algorithms
-6. Sound?
+2. Add a CLI option to list available algorithms
+3. User-friendly GUI
+4. More algorithms
+5. Sound?
 
-## Contribute
+## Contributing
+
+[**Documentation**](https://dmitmel.github.io/sorting-visualization)
 
 PRs are appreciated!
 
